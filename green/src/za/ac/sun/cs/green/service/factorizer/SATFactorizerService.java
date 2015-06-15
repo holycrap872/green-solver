@@ -89,7 +89,7 @@ public class SATFactorizerService extends BasicService {
 			// Return true of no more unsolved factors; else return null to carry on the computation
 			return (unsolved.isEmpty()) ? result : null; 
 		} else {
-			// We have already solved this subinstance; return null to carry on the computation
+			// We have already solved this sub-instance; return null to carry on the computation
 			return null;
 		}
 	}

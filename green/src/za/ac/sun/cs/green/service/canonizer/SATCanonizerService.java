@@ -191,11 +191,11 @@ public class SATCanonizerService extends BasicService {
 			if (!linearInteger) {
 				return null;
 			} else if (unsatisfiable) {
-				return Operation.FALSE;
+				return Operation.LI_FALSE;
 			} else {
 				if (!stack.isEmpty()) {
 					Expression x = stack.pop();
-					if (!x.equals(Operation.TRUE)) {
+					if (!x.equals(Operation.LI_TRUE)) {
 						conjuncts.add(x);
 					}
 				}
@@ -227,7 +227,7 @@ public class SATCanonizerService extends BasicService {
 						c = new Operation(Operation.Operator.AND, c, e);
 					}
 				}
-				return (c == null) ? Operation.TRUE : c;
+				return (c == null) ? Operation.LI_TRUE : c;
 			}
 		}
 
@@ -348,7 +348,7 @@ public class SATCanonizerService extends BasicService {
 			if (linearInteger && !unsatisfiable) {
 				if (variable instanceof IntVariable) {
 					variableSet.add((IntVariable) variable);
-					stack.push(new Operation(Operation.Operator.MUL, Operation.ONE,
+					stack.push(new Operation(Operation.Operator.MUL, Operation.LI_ONE,
 							variable));
 				} else {
 					stack.clear();
@@ -367,13 +367,13 @@ public class SATCanonizerService extends BasicService {
 			case AND:
 				if (!stack.isEmpty()) {
 					Expression x = stack.pop();
-					if (!x.equals(Operation.TRUE)) {
+					if (!x.equals(Operation.LI_TRUE)) {
 						conjuncts.add(x);
 					}
 				}
 				if (!stack.isEmpty()) {
 					Expression x = stack.pop();
-					if (!x.equals(Operation.TRUE)) {
+					if (!x.equals(Operation.LI_TRUE)) {
 						conjuncts.add(x);
 					}
 				}
@@ -402,12 +402,12 @@ public class SATCanonizerService extends BasicService {
 						b = v >= 0;
 					}
 					if (b) {
-						stack.push(Operation.TRUE);
+						stack.push(Operation.LI_TRUE);
 					} else {
 						unsatisfiable = true;
 					}
 				} else {
-					stack.push(new Operation(op, e, Operation.ZERO));
+					stack.push(new Operation(op, e, Operation.LI_ZERO));
 				}
 				break;
 			case ADD:
@@ -559,7 +559,7 @@ public class SATCanonizerService extends BasicService {
 
 		private Expression scale(int factor, Expression expression) {
 			if (factor == 0) {
-				return Operation.ZERO;
+				return Operation.LI_ZERO;
 			}
 			if (expression instanceof IntConstant) {
 				return new IntConstant(factor

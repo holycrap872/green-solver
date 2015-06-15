@@ -3,6 +3,7 @@ package za.ac.sun.cs.green;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,6 +61,9 @@ public class Green {
 	 * The store associated with this Green solver.
 	 */
 	private Store store;
+	
+	
+	private final Properties properties;
 
 	/**
 	 * Constructs a Green solver instance with the given name. The name can be
@@ -68,8 +72,9 @@ public class Green {
 	 * @param solverName
 	 *            the name of the solver
 	 */
-	public Green(String solverName) {
+	public Green(String solverName, Properties properties) {
 		this.greenName = solverName;
+		this.properties = properties;
 		log = Logger.getLogger("za.ac.sun.cs.green[" + solverName + "]");
 		log.setUseParentHandlers(false);
 		log.setLevel(Level.ALL);
@@ -84,7 +89,8 @@ public class Green {
 	/**
 	 * Constructs an anonymous -- but unique -- instance of a Green solver.
 	 */
-	public Green() {
+	public Green(Properties properties) {
+		this.properties = properties;
 		greenName = "anonymous" + ++solverCounter;
 		log = Logger.getLogger("za.ac.sun.cs.green[" + greenName + "]");
 		log.setUseParentHandlers(false);
@@ -303,6 +309,10 @@ public class Green {
 		}
 		store.shutdown();
 		taskManager.shutdown();
+	}
+	
+	public Properties getPropertiesFile() {
+		return properties;
 	}
 
 }

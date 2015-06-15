@@ -242,12 +242,12 @@ public abstract class SATSMTLIBService extends SATService {
 				return "div";
 			case MOD:
 				return "mod";
-			case BIT_AND:
-			case BIT_OR:
-			case BIT_XOR:
-			case SHIFTL:
-			case SHIFTR:
-			case SHIFTUR:
+			case BVAND:
+			case BVOR:
+			case BVXOR:
+			case BVSHL:
+			case BVASHR:
+			case BVLSHR:
 			case SIN:
 			case COS:
 			case TAN:

@@ -1,0 +1,32 @@
+; Query 0 -- Type: InitialValues, Instructions: 4554
+; Path 10000
+(set-option :produce-models true)
+(set-logic QF_AUFBV )
+(declare-fun n_args () (Array (_ BitVec 32) (_ BitVec 8) ) )
+(assert (bvsle  (_ bv3 32) (concat  (select  n_args (_ bv3 32) ) (concat  (select  n_args (_ bv2 32) ) (concat  (select  n_args (_ bv1 32) ) (select  n_args (_ bv0 32) ) ) ) ) ) )
+(check-sat)
+(get-value ( (select n_args (_ bv0 32) ) ) )
+(get-value ( (select n_args (_ bv1 32) ) ) )
+(get-value ( (select n_args (_ bv2 32) ) ) )
+(get-value ( (select n_args (_ bv3 32) ) ) )
+(exit)
+;   OK -- Elapsed: 0.029805
+;   Solvable: true
+;     n_args = [1,0,0,64]
+
+
+; Query 0 -- Type: InitialValues, Instructions: 4554
+; Path 10000
+(set-option :produce-models true)
+(set-logic QF_AUFBV )
+(declare-fun n_args () (Array (_ BitVec 32) (_ BitVec 8) ) )
+(assert (bvsle  (_ bv3 32) (concat  (select  n_args (_ bv3 32) ) (concat  (select  n_args (_ bv2 32) ) (concat  (select  n_args (_ bv1 32) ) (select  n_args (_ bv0 32) ) ) ) ) ) )
+(check-sat)
+(get-value ( (select n_args (_ bv0 32) ) ) )
+(get-value ( (select n_args (_ bv1 32) ) ) )
+(get-value ( (select n_args (_ bv2 32) ) ) )
+(get-value ( (select n_args (_ bv3 32) ) ) )
+(exit)
+;   OK -- Elapsed: 0.029805
+;   Solvable: true
+;     n_args = [1,0,0,64]

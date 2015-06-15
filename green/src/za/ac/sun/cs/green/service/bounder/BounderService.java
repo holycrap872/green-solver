@@ -121,7 +121,7 @@ public class BounderService extends BasicService {
 					"encountered an exception -- this should not be happening!",
 					x);
 		}
-		return (e == null) ? Operation.TRUE : e;
+		return (e == null) ? Operation.LI_TRUE : e;
 	}
 
 	private static class VariableCollector extends Visitor {
