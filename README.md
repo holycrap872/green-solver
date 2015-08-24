@@ -27,29 +27,34 @@ I suggest the following klee.properties file
 ## This creates a single redis store that will cache all of the queries
 green.store = za.ac.sun.cs.green.store.redis.RedisStore
 
-## This sets up the configuration for a request for "sat".  In this case, the constraint will first be
-## factorized, then the cache will be checked, and then, if the cache misses, the solver will be invoked
-green.services = sat
+## This sets up the configuration for a request for "sat" and "non_recursive".  
+##   - sat : In this case, the constraint will first be factorized, then the 
+##           cache will be checked, and then, if the cache misses, the solver
+##           will be invoked
+##   - non_recursive : This request is used by parts of the factorizer to try
+##                     and prove that two accesses to an array are independent.
+##                     For example, a traditional SMT solver would combine
+##                     {arr[x]> 8 && x < 5} and {arr[7] < 6} into a single factor
+##                     due to the symbolic reference to array arr. The solver 
+##                     is used to show that x != 7, and therefore the two can 
+##                     remain independent.
+green.services = sat, non_recursive
+
 green.service.sat = (factorizer (z3))
 green.service.sat.factorizer = za.ac.sun.cs.green.service.bvfactorizer.SATBVFactorizerService
 green.service.sat.z3 = za.ac.sun.cs.green.service.z3.SATZ3NativeService
 
-## This sets up a "non_recurive" request.  This request is used by parts of the factorizer to try and
-## prove that two accesses to an array are independent.  For example, a traditional SMT solver would combine
-## {arr[x]> 8 && x < 5} and {arr[7] < 6} into a single factor due to the symbolic reference to array arr.
-##The solver is used to show that x != 7, and therefore the two can remain independent.
-green.services = non_recursive
 green.service.non_recursive = (z3)
 green.service.non_recursive.z3 = za.ac.sun.cs.green.service.z3.SATZ3NativeService
 
 ## This option is for how to handle a symbolic access to an array.  The options are:
 ##   1) no -> use traditional bv factorization technique where any symbolic access to an array causes
-        all constraints that access that array to be grouped into a single factor.
+##      all constraints that access that array to be grouped into a single factor.
 ##   2) smash_and_merge_necessary -> For every pair of factors that would traditionally be collapsed,
-        check to see whether the symbolic accesses in one factor could be equal to the accesses in
-        the other factor.
+##      check to see whether the symbolic accesses in one factor could be equal to the accesses in
+##      the other factor.
 ##   3) smash_dont_merge_experimental -> Don't merge factors that have symbolic acceseses at all. This
-        is dangerous because UNSAT ones could be called SAT.
+##      is dangerous because UNSAT ones could be called SAT.
 smash_factors = smash_and_merge_necessary
 
 ## This options is for how to handle factors all symbolic accesses into a single factor or whether
@@ -60,7 +65,7 @@ smash_factors = smash_and_merge_necessary
 ## end up in the same factor in the end.  Therefore, the default behavior is "merge"
 ##   1) merge -> merge all pairs of factors that contain symbolic accesses to the same array
 ##   2) no_merge -> check for each pair of factors that contain symbolic accesses whether the accesses
-        could ever be equal to each other.
+##      could ever be equal to each other.
 merge_symbolic_accesses = merge
 ```
 
