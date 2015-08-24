@@ -3,3 +3,5 @@
 *.rdb
 green/bin
 greenserver/bin
+README_*
+*.swp
