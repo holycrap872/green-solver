@@ -30,6 +30,7 @@ public class TestFrontEnd {
 			System.exit(1);
 		}
 
+		System.out.println("Hi Eric");
 		KleeOutputParser parser = new KleeOutputParser(new File(args[1]));
 		TestFrontEnd tfe = new TestFrontEnd();
 		tfe.run(p, parser);
@@ -37,12 +38,12 @@ public class TestFrontEnd {
 
 	public void run(Properties p, KleeOutputParser parser){
 		// Create a green Solver that we will pass all of the instances to.
-		Green g = new Green(p);		
-		new Configuration(g, p).configure();
-		g.setStore(new RedisStore(g, p));
+		Green solver = new Green(p);		
+		new Configuration(solver, p).configure();
+		solver.setStore(new RedisStore(solver, p));
 
 		int instanceNumber = 0;
-
+		
 		while(parser.hasNext()){
 			// Get the Expression, and the Klee Calculated SAT Value 
 			Pair<Expression, Boolean> pair = parser.getNext();
@@ -50,11 +51,13 @@ public class TestFrontEnd {
 			System.out.println("Serving instance " + instanceNumber);
 			instanceNumber ++;
 
-			Instance instance = new Instance(g, null, pair.first);
+			Instance instance = new Instance(solver, null, pair.first);
 			Boolean ret = (Boolean) instance.request("sat");
-			g.report();
+			solver.report();
 			if(pair.second != null && ! ret.equals(pair.second)){
 				throw new java.lang.RuntimeException("The calculated SAT value didn't equal the value calculated by Klee");
+			}else{
+				System.out.println("It matches!!!");
 			}
 		}
 

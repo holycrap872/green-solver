@@ -13,6 +13,7 @@ import org.junit.Test;
 import za.ac.sun.cs.green.Green;
 import za.ac.sun.cs.green.expr.Expression;
 import za.ac.sun.cs.green.parser.klee.KleeOutputParser;
+import za.ac.sun.cs.green.parser.klee.TestFrontEnd;
 import za.ac.sun.cs.green.service.bvfactorizer.BVFactorExpression;
 import za.ac.sun.cs.green.util.Configuration;
 
@@ -25,7 +26,7 @@ public class SmallFactorTest {
 	public static void buildUp(){
 		props = new Properties();
 		try {
-			props.load(new FileInputStream("test/za/ac/sun/cs/green/klee/files/klee.properties"));
+			props.load(new FileInputStream("helperfiles/klee.properties"));
 		} catch (Exception e) {
 			System.err.println("Problem loading .properties file");
 			System.exit(1);
@@ -115,6 +116,12 @@ public class SmallFactorTest {
 		}
 		
 		assertEquals(set.size(), 1);
+	}
+	
+	@Test
+	public void test03() {
+		String [] args = {"helperfiles/klee.properties", "helperfiles/partab"};
+		TestFrontEnd.main(args);
 	}
 	
 	@AfterClass
