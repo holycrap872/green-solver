@@ -510,6 +510,10 @@ public class SubsumptionHelper {
 					Expr right = (Expr) stack.pop();
 					Expr left = (Expr) stack.pop();
 					stack.push(ctx.mkBVAdd((BitVecExpr) left, (BitVecExpr)right));
+				}else if(operation.getOperator() == Operation.Operator.ZEXT){
+                                        Expr right = (Expr) stack.pop();
+                                        Expr left = (Expr) stack.pop();
+                                        stack.push(ctx.mkBVAdd((BitVecExpr) left, (BitVecExpr)right)); 
 				}else{
 					System.out.println(operation.getOperator().toString());
 					new java.lang.Exception().printStackTrace();
