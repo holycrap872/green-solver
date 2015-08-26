@@ -44,7 +44,9 @@ public class TestFrontEnd {
 
 		int instanceNumber = 0;
 		
-		while(parser.hasNext()){
+		long timeSpentSolver = 0;		
+	
+		while(parser.hasNext() && instanceNumber < 1000){
 			// Get the Expression, and the Klee Calculated SAT Value 
 			Pair<Expression, Boolean> pair = parser.getNext();
 
@@ -52,13 +54,19 @@ public class TestFrontEnd {
 			instanceNumber ++;
 
 			Instance instance = new Instance(solver, null, pair.first);
+
+                        long temp = System.currentTimeMillis();
 			Boolean ret = (Boolean) instance.request("sat");
+			timeSpentSolver += (System.currentTimeMillis() - temp);
+
 			solver.report();
-			//if(pair.second != null && ! ret.equals(pair.second)){
-			//	throw new java.lang.RuntimeException("The calculated SAT value didn't equal the value calculated by Klee");
-			//}else{
-			//	System.out.println("It matches!!!");
-			//}
+			if(pair.second != null && ! ret.equals(pair.second)){
+				System.out.println("Careful");
+			}else{
+				System.out.println("It matches!!!");
+			}
+
+			System.out.println("Served instance, " + (instanceNumber - 1) + ", Time Spent So Far, " + timeSpentSolver);
 		}
 
 		parser.close();

@@ -64,7 +64,7 @@ public class SATBVFactorizerService extends BasicService {
 
 			result = new HashSet<Instance>();
 			for (Expression e : fc.getFactors()) {
-				System.out.println("BVFactorizer computes instance for :" + e+"\n");
+				//System.out.println("BVFactorizer computes instance for :" + e+"\n");
 				final Instance i = new Instance(getSolver(), instance.getSource(), null, e);
 				result.add(i);
 			}
